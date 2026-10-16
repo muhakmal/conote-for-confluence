@@ -113,8 +113,8 @@ See the full [Implementation Plan](IMPLEMENTATION_PLAN.md) for details.
 ### Installation
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/conote.git
-cd conote
+git clone https://github.com/muhakmal/conote-for-confluence.git
+cd conote-for-confluence
 
 # Install dependencies
 npm install
