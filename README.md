@@ -9,7 +9,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: macOS | Windows | Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey.svg)]()
 [![CI: Passing](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml/badge.svg)](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml)
-[![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-brightgreen.svg)](https://github.com/muhakmal/conote-for-confluence/releases)
+[![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-brightgreen.svg)](https://github.com/muhakmal/conote-for-confluence/releases)
 
 <br/><br/>
 <img src="docs/assets/conote-preview.svg" alt="CoNote for Confluence Desktop App Preview" width="100%" />

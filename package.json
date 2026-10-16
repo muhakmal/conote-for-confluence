@@ -1,6 +1,6 @@
 {
   "name": "conote",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Fast, local-first PRD & Markdown desktop notebook for Confluence Cloud.",
   "author": "Akmal Muhamad <muhamad.akmal@binus.ac.id>",
   "repository": {
