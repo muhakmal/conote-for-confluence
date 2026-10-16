@@ -67,18 +67,16 @@ nsis:
 linux:
   category: Office;Utility;Development;
   icon: web/icon-512.png
+  maintainer: "Akmal Muhamad <muhamad.akmal@binus.ac.id>"
   target:
     - target: AppImage
       arch:
         - x64
-        - arm64
     - target: deb
       arch:
         - x64
-        - arm64
     - target: rpm
       arch:
         - x64
-        - arm64
   synopsis: Fast local-first PRD & Markdown notebook for Confluence Cloud
   description: Draft PRDs and technical architecture documents at the speed of thought. Zero editor lag, offline-ready, with safe, conflict-aware publishing to Confluence.
