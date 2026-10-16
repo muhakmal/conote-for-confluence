@@ -806,4 +806,25 @@ svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none;
 .space-card-meta { font-size: 11.5px; color: var(--muted); margin-top: 2px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
 .space-card-actions { display: flex; gap: 6px; align-items: center; margin-left: 10px; }
 
+/* ---------- Electron App Adaptations ---------- */
+:root.is-electron.is-mac .sidebar-head {
+  padding-top: 24px;
+  -webkit-app-region: drag;
+}
+:root.is-electron.is-mac .sidebar-head .brand,
+:root.is-electron.is-mac .sidebar-head button,
+:root.is-electron.is-mac .sidebar-head a {
+  -webkit-app-region: no-drag;
+}
+:root.is-electron.is-mac .topbar {
+  -webkit-app-region: drag;
+}
+:root.is-electron.is-mac .topbar button,
+:root.is-electron.is-mac .topbar input,
+:root.is-electron.is-mac .topbar a,
+:root.is-electron.is-mac .topbar .segmented {
+  -webkit-app-region: no-drag;
+}
+
+
 

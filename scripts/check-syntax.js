@@ -6,7 +6,7 @@ import { execFileSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const files = [];
-for (const dir of ['bin', 'src', 'web/js', 'web/lib', 'scripts', 'test']) {
+for (const dir of ['bin', 'src', 'web/js', 'web/lib', 'scripts', 'test', 'electron']) {
   const dirPath = path.join(root, dir);
   if (!fs.existsSync(dirPath)) continue;
   const walk = (d) => {

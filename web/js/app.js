@@ -1087,6 +1087,12 @@ enableTreeDnd({
 
 // ---------------- global events ----------------
 document.addEventListener('click', (e) => {
+  const externalLink = e.target.closest('a[href^="http://"], a[href^="https://"]');
+  if (externalLink && window.electronAPI?.openExternal) {
+    e.preventDefault();
+    window.electronAPI.openExternal(externalLink.href);
+    return;
+  }
   const actionEl = e.target.closest('[data-action]');
   if (actionEl) {
     if (['palette', 'new-draft', 'settings'].includes(actionEl.dataset.action) && document.querySelector('.overlay:not(.closing)')) return;
@@ -1343,6 +1349,12 @@ function initPresentControls() {
 
 // ---------------- boot ----------------
 (async function boot() {
+  if (window.electronAPI?.isElectron) {
+    document.documentElement.classList.add('is-electron');
+    if (window.electronAPI.platform === 'darwin') {
+      document.documentElement.classList.add('is-mac');
+    }
+  }
   hydrateIcons();
   renderFilters();
   setTab('space');
