@@ -26,7 +26,7 @@
     "open": "node bin/cn.js open",
     "pull": "node bin/cn.js pull",
     "check": "node scripts/check-syntax.js",
-    "test": "node --test test/*.test.js"
+    "test": "node scripts/run-tests.js"
   },
   "engines": {
     "node": ">=20"

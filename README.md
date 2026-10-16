@@ -11,6 +11,9 @@
 [![CI: Passing](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml/badge.svg)](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml)
 [![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-brightgreen.svg)](https://github.com/muhakmal/conote-for-confluence/releases)
 
+<br/><br/>
+<img src="docs/assets/conote-preview.svg" alt="CoNote for Confluence Desktop App Preview" width="100%" />
+
 </div>
 
 ---

@@ -6,6 +6,12 @@
 
 ## 🖥️ User Interface Overview
 
+<div align="center">
+  <img src="assets/conote-preview.svg" alt="CoNote for Confluence Desktop Preview" width="100%" />
+</div>
+
+<br/>
+
 ```text
 ┌────────────────────────────────────────────────────────────────────────────────────────┐
 │  🔴 🟡 🟢  CoNote — [ARCH-202] Core Payment Router Architecture                [ ⚙️ ] │
