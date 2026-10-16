@@ -747,16 +747,219 @@ async function openPalette() {
   });
 }
 
+// ---------------- onboarding & space wizard ----------------
+async function onboardingWizard({ isNewSpace = false } = {}) {
+  let discoveredSpaces = [];
+  return dialog({
+    title: isNewSpace ? 'Add Confluence Space' : 'Welcome to CoNote',
+    subtitle: isNewSpace ? 'Connect another space to your notebook' : 'Fast, local-first Markdown notebook for Atlassian Confluence Cloud',
+    className: 'onboarding-dialog',
+    dismissable: isNewSpace,
+    render(b, close) {
+      b.innerHTML = `
+        <div class="dialog-body">
+          <p class="dialog-desc">Enter your Atlassian Confluence Cloud credentials. Your token is stored locally and communicates directly with your Confluence instance over HTTPS.</p>
+
+          <div class="field">
+            <label>Confluence Base URL <span class="required">*</span></label>
+            <input class="input" name="baseUrl" placeholder="https://your-team.atlassian.net/wiki" autofocus />
+            <small class="hint">The web URL of your Confluence Cloud instance (e.g. <code>https://acme.atlassian.net/wiki</code>)</small>
+          </div>
+
+          <div class="field">
+            <label>Atlassian Account Email <span class="required">*</span></label>
+            <input class="input" type="email" name="email" placeholder="name@company.com" />
+          </div>
+
+          <div class="field">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <label>API Token <span class="required">*</span></label>
+              <a href="https://id.atlassian.com/manage-profile/security/api-tokens" target="_blank" rel="noopener" class="subtle-link">Create Atlassian API Token ↗</a>
+            </div>
+            <div class="input-with-button">
+              <input class="input" type="password" name="token" placeholder="Paste your API token" />
+              <button class="btn btn-sm" type="button" data-toggle-token title="Show or hide token">Show</button>
+            </div>
+            <small class="hint">Generated at id.atlassian.com &gt; Security &gt; API tokens.</small>
+          </div>
+
+          <div class="test-conn-row" style="margin: 4px 0 8px;">
+            <button class="btn btn-secondary" type="button" data-test-btn>
+              ${icon('refresh')} <span>Test Connection & Discover Spaces</span>
+            </button>
+            <div class="test-status" data-test-status style="display:none;margin-top:8px;"></div>
+          </div>
+
+          <div class="field space-select-field" style="display:none;">
+            <label>Select Space <span class="required">*</span></label>
+            <select class="select" name="spaceSelect"></select>
+            <small class="hint">Choose which space you want to sync locally.</small>
+          </div>
+
+          <div class="field custom-space-field" style="display:none;">
+            <label>Space Key (Custom)</label>
+            <input class="input" name="customKey" placeholder="e.g. ENG, PROD" />
+          </div>
+        </div>
+        <div class="dialog-foot">
+          ${isNewSpace ? '<button class="btn" data-cancel>Cancel</button>' : ''}
+          <button class="btn btn-primary" data-save-btn disabled>Save & Connect</button>
+        </div>
+      `;
+
+      const baseUrlInput = b.querySelector('[name="baseUrl"]');
+      const emailInput = b.querySelector('[name="email"]');
+      const tokenInput = b.querySelector('[name="token"]');
+      const testBtn = b.querySelector('[data-test-btn]');
+      const testStatus = b.querySelector('[data-test-status]');
+      const spaceSelectField = b.querySelector('.space-select-field');
+      const spaceSelect = b.querySelector('[name="spaceSelect"]');
+      const customSpaceField = b.querySelector('.custom-space-field');
+      const saveBtn = b.querySelector('[data-save-btn]');
+      const toggleTokenBtn = b.querySelector('[data-toggle-token]');
+
+      toggleTokenBtn.onclick = () => {
+        if (tokenInput.type === 'password') {
+          tokenInput.type = 'text';
+          toggleTokenBtn.textContent = 'Hide';
+        } else {
+          tokenInput.type = 'password';
+          toggleTokenBtn.textContent = 'Show';
+        }
+      };
+
+      testBtn.onclick = async () => {
+        const baseUrl = baseUrlInput.value.trim();
+        const email = emailInput.value.trim();
+        const token = tokenInput.value.trim();
+
+        if (!baseUrl || !email || !token) {
+          testStatus.style.display = 'block';
+          testStatus.className = 'test-status test-error';
+          testStatus.textContent = 'Please fill in Base URL, Email, and API Token first.';
+          return;
+        }
+
+        testBtn.disabled = true;
+        testBtn.querySelector('span').textContent = 'Connecting…';
+        testStatus.style.display = 'block';
+        testStatus.className = 'test-status test-testing';
+        testStatus.textContent = 'Connecting to Confluence Cloud…';
+
+        try {
+          const res = await api.testConnection({ baseUrl, email, token });
+          if (res.ok) {
+            discoveredSpaces = res.spaces || [];
+            testStatus.className = 'test-status test-success';
+            testStatus.innerHTML = `✓ Connection successful! Found ${discoveredSpaces.length} space(s).`;
+            if (discoveredSpaces.length > 0) {
+              spaceSelect.innerHTML = discoveredSpaces.map((s) =>
+                `<option value="${esc(s.key)}" data-name="${esc(s.name)}">${esc(s.name)} (${esc(s.key)})</option>`
+              ).join('');
+              spaceSelectField.style.display = 'block';
+              customSpaceField.style.display = 'none';
+            } else {
+              spaceSelectField.style.display = 'none';
+              customSpaceField.style.display = 'block';
+            }
+            saveBtn.disabled = false;
+          } else {
+            testStatus.className = 'test-status test-error';
+            testStatus.textContent = res.error || 'Connection failed.';
+            saveBtn.disabled = true;
+          }
+        } catch (err) {
+          testStatus.className = 'test-status test-error';
+          testStatus.textContent = err.message || 'Connection failed. Please check credentials.';
+          saveBtn.disabled = true;
+        } finally {
+          testBtn.disabled = false;
+          testBtn.querySelector('span').textContent = 'Test Connection & Discover Spaces';
+        }
+      };
+
+      if (isNewSpace) {
+        b.querySelector('[data-cancel]').onclick = () => close();
+      }
+
+      saveBtn.onclick = async () => {
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Saving…';
+        try {
+          const baseUrl = baseUrlInput.value.trim();
+          const email = emailInput.value.trim();
+          const token = tokenInput.value.trim();
+          const key = spaceSelect.value || b.querySelector('[name="customKey"]')?.value?.trim();
+          const name = spaceSelect.selectedOptions?.[0]?.dataset?.name || key;
+
+          if (!key) throw new Error('Space Key is required');
+
+          const spaceId = key.toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'default';
+          await api.saveSpace({
+            id: spaceId,
+            name,
+            key,
+            baseUrl,
+            email,
+            token,
+            setActive: true,
+          });
+
+          toast(`Space "${name}" connected!`);
+          close();
+
+          state.status = await api.status();
+          initSpaceSelector();
+          await Promise.all([loadTree(), loadDrafts()]);
+          renderSync();
+          renderFilters();
+          startPull();
+        } catch (err) {
+          toast(err.message, { type: 'error' });
+          saveBtn.disabled = false;
+          saveBtn.textContent = 'Save & Connect';
+        }
+      };
+    },
+  });
+}
+
 // ---------------- settings ----------------
 async function settingsDialog() {
   const s = await api.settings();
   const theme = localStorage.getItem('cn-theme') || 'system';
+  const spaces = state.status?.spaces || [];
+
   await dialog({
     title: 'Settings',
-    subtitle: `${esc(state.status?.email || '')} · ${esc(state.status?.baseUrl || '')}`,
+    subtitle: `${esc(state.status?.email || 'No email')} · ${esc(state.status?.baseUrl || 'No instance connected')}`,
+    className: 'onboarding-dialog',
     render(b, close) {
       b.innerHTML = `
         <div class="dialog-body">
+          <div class="field">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+              <label style="margin:0;font-weight:600">Confluence Spaces</label>
+              <button class="btn btn-sm btn-secondary" data-add-space>${icon('plus')} Add Space</button>
+            </div>
+            <div class="space-card-list">
+              ${spaces.map((sp) => `
+                <div class="space-card ${sp.active ? 'active' : ''}">
+                  <div class="space-card-info">
+                    <div class="space-card-name">
+                      ${esc(sp.name)} <span class="pill ${sp.active ? 'pill-green' : ''}">${esc(sp.key)}</span>
+                    </div>
+                    <div class="space-card-meta">${esc(sp.baseUrl || 'No URL')} · ${esc(sp.email || '')}</div>
+                  </div>
+                  <div class="space-card-actions">
+                    ${!sp.active ? `<button class="btn btn-sm" data-switch="${esc(sp.id)}">Switch</button>` : '<span class="pill pill-blue">Active</span>'}
+                    ${spaces.length > 1 ? `<button class="icon-btn" data-del="${esc(sp.id)}" title="Remove space">${icon('close')}</button>` : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+
           <div class="field"><label>Auto fetch from Confluence</label><select class="select" name="interval">
             ${[[0, 'Off (manual only)'], [15, 'Every 15 minutes'], [30, 'Every 30 minutes'], [60, 'Every hour'], [240, 'Every 4 hours']].map(([v, l]) => `<option value="${v}" ${Number(s.autoFetchMinutes) === v ? 'selected' : ''}>${l}</option>`).join('')}
           </select></div>
@@ -767,6 +970,49 @@ async function settingsDialog() {
             <button class="btn btn-sm" data-reconvert>${icon('undo')} Re-convert cached pages</button></div></div>
         </div>
         <div class="dialog-foot"><button class="btn" data-x>Close</button><button class="btn btn-primary" data-ok>Save</button></div>`;
+
+      b.querySelector('[data-add-space]').onclick = () => {
+        close();
+        onboardingWizard({ isNewSpace: true });
+      };
+
+      b.querySelectorAll('[data-switch]').forEach((btn) => {
+        btn.onclick = async () => {
+          const target = btn.dataset.switch;
+          close();
+          try {
+            await api.switchSpace(target);
+            state.status = await api.status();
+            initSpaceSelector();
+            await Promise.all([loadTree(), loadDrafts()]);
+            renderSync();
+            renderFilters();
+            setTab('space');
+            toast(`Switched to space ${target}`);
+          } catch (e) {
+            toast(e.message, { type: 'error' });
+          }
+        };
+      });
+
+      b.querySelectorAll('[data-del]').forEach((btn) => {
+        btn.onclick = async () => {
+          const target = btn.dataset.del;
+          if (!confirm(`Are you sure you want to remove space '${target}' from configuration?`)) return;
+          close();
+          try {
+            await api.deleteSpace(target);
+            state.status = await api.status();
+            initSpaceSelector();
+            await Promise.all([loadTree(), loadDrafts()]);
+            renderSync();
+            toast(`Space '${target}' removed`);
+          } catch (e) {
+            toast(e.message, { type: 'error' });
+          }
+        };
+      });
+
       b.querySelector('[data-theme-switch]').addEventListener('click', (e) => {
         const t = e.target.closest('[data-t]')?.dataset.t;
         if (!t) return;
@@ -1105,6 +1351,10 @@ function initPresentControls() {
     state.status = await api.status();
     if (state.status.busy === 'pull') $('#sync').classList.add('busy', 'indeterminate');
     initSpaceSelector();
+    const needsSetup = !state.status?.baseUrl || !state.status?.email || !state.status?.spaces?.length || state.status?.space?.key === 'DEV';
+    if (needsSetup) {
+      setTimeout(() => onboardingWizard(), 400);
+    }
   } catch {}
   await Promise.all([loadTree(), loadDrafts()]);
   renderSync();

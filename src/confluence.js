@@ -164,3 +164,48 @@ export class Confluence {
     return `${this.base}/spaces/${config.spaceKey}/pages/${pageId}`;
   }
 }
+
+/** Test Confluence Cloud credentials and discover accessible spaces. */
+export async function testConfluenceCredentials({ baseUrl, email, token }) {
+  if (!baseUrl) throw new Error('Base URL is required (e.g. https://your-team.atlassian.net/wiki)');
+  if (!email) throw new Error('Atlassian account email is required');
+  if (!token) throw new Error('Atlassian API token is required');
+
+  let cleanBase = baseUrl.trim().replace(/\/+$/, '');
+  if (!cleanBase.startsWith('http://') && !cleanBase.startsWith('https://')) {
+    cleanBase = 'https://' + cleanBase;
+  }
+  const u = new URL(cleanBase);
+  const pathPrefix = u.pathname === '/' || !u.pathname ? '/wiki' : u.pathname.replace(/\/+$/, '');
+  const apiUrl = `${u.origin}${pathPrefix}/rest/api/space?limit=50&status=current`;
+
+  const auth = 'Basic ' + Buffer.from(`${email.trim()}:${token.trim()}`).toString('base64');
+  const res = await fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: auth,
+      Accept: 'application/json',
+    },
+  });
+
+  if (res.status === 401 || res.status === 403) {
+    throw new Error('Authentication failed (HTTP 401/403). Please verify your Atlassian account email and API token.');
+  }
+  if (!res.ok) {
+    const text = await res.text().catch(() => '');
+    throw new Error(`Confluence returned HTTP ${res.status}: ${text.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  const spaces = (data.results || []).map((s) => ({
+    key: s.key,
+    name: s.name,
+    type: s.type,
+  }));
+
+  return {
+    ok: true,
+    baseUrl: `${u.origin}${pathPrefix}`,
+    spaces,
+  };
+}

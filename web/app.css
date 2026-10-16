@@ -782,3 +782,28 @@ svg.i { width: 18px; height: 18px; flex: none; stroke: currentColor; fill: none;
   text-align: center;
 }
 
+/* ---------- Onboarding Wizard & Space Management ---------- */
+.onboarding-dialog { width: min(560px, 100%); }
+.dialog-desc { margin: 0 0 10px; font-size: 13px; line-height: 1.45; color: var(--fg-2); }
+.input-with-button { display: flex; gap: 8px; align-items: center; }
+.input-with-button .input { flex: 1; }
+.test-status { padding: 9px 12px; border-radius: 8px; font-size: 12.5px; line-height: 1.4; }
+.test-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+.test-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.test-testing { background: #dbeafe; color: #1e40af; border: 1px solid #bfdbfe; }
+:root[data-theme='dark'] .test-success { background: rgba(34, 197, 94, 0.15); color: #4ade80; border-color: rgba(34, 197, 94, 0.3); }
+:root[data-theme='dark'] .test-error { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
+:root[data-theme='dark'] .test-testing { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.3); }
+.subtle-link { color: var(--accent); font-size: 12px; text-decoration: none; font-weight: 500; }
+.subtle-link:hover { text-decoration: underline; }
+.hint { display: block; margin-top: 4px; color: var(--muted); font-size: 11.5px; }
+.required { color: #ef4444; font-weight: bold; }
+.space-card-list { display: flex; flex-direction: column; gap: 8px; margin-top: 6px; }
+.space-card { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--surface-2); border-radius: 8px; border: 1px solid var(--border); }
+.space-card.active { border-color: var(--accent); background: var(--accent-soft); }
+.space-card-info { min-width: 0; flex: 1; }
+.space-card-name { font-weight: 600; font-size: 13.5px; color: var(--fg); display: flex; align-items: center; gap: 6px; }
+.space-card-meta { font-size: 11.5px; color: var(--muted); margin-top: 2px; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.space-card-actions { display: flex; gap: 6px; align-items: center; margin-left: 10px; }
+
+

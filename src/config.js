@@ -214,6 +214,85 @@ export function readToken(spaceId = getActiveSpace()) {
   return fs.readFileSync(cur.tokenFile, 'utf8').trim();
 }
 
+export function addOrUpdateSpace({ id, name, key, baseUrl, email, token, setActive = true }) {
+  if (!key) throw new Error('Space key is required');
+  const spaceId = (id || key).toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'default';
+  const cleanBase = (baseUrl || '').replace(/\/+$/, '');
+  const tokenFile = spacesState.spaces[spaceId]?.tokenFile || (spaceId === 'default' ? 'confluence-token.txt' : `confluence-token-${spaceId}.txt`);
+
+  spacesState.spaces[spaceId] = {
+    id: spaceId,
+    name: name || key,
+    key: key.toUpperCase(),
+    baseUrl: cleanBase,
+    email: email || '',
+    tokenFile,
+    workspaceDir: spaceId === 'default' ? 'workspace' : `workspace_${spaceId}`,
+    draftsDir: spaceId === 'default' ? 'drafts' : `drafts_${spaceId}`,
+    cacheDir: spaceId === 'default' ? '.cache' : `.cache_${spaceId}`,
+    templatesDir: 'templates',
+    exportsDir: spaceId === 'default' ? 'exports' : `exports_${spaceId}`,
+  };
+
+  if (token) {
+    const tokenPath = abs(tokenFile, 'confluence-token.txt');
+    fs.mkdirSync(path.dirname(tokenPath), { recursive: true });
+    fs.writeFileSync(tokenPath, token.trim(), 'utf8');
+  }
+
+  ensureDirs(spaceId);
+
+  if (setActive) {
+    spacesState.active = spaceId;
+    process.env.CN_ACTIVE_SPACE = spaceId;
+    try {
+      fs.writeFileSync(ACTIVE_FILE, spaceId, 'utf8');
+    } catch {}
+  }
+
+  try {
+    fs.writeFileSync(SPACES_FILE, JSON.stringify({ active: spacesState.active, spaces: spacesState.spaces }, null, 2), 'utf8');
+  } catch {}
+
+  return spacesState.spaces[spaceId];
+}
+
+export function deleteSpaceConfig(id) {
+  const norm = String(id || '').trim().toLowerCase();
+  if (!spacesState.spaces[norm]) {
+    throw new Error(`Space '${id}' not found`);
+  }
+  delete spacesState.spaces[norm];
+  const remaining = Object.keys(spacesState.spaces);
+  if (!remaining.length) {
+    spacesState.spaces.default = defaultSpaceFromEnv().default || {
+      id: 'default',
+      name: 'Default Space',
+      key: '',
+      baseUrl: '',
+      email: '',
+      tokenFile: 'confluence-token.txt',
+      workspaceDir: 'workspace',
+      draftsDir: 'drafts',
+      templatesDir: 'templates',
+      exportsDir: 'exports',
+      cacheDir: '.cache',
+    };
+    remaining.push('default');
+  }
+  if (spacesState.active === norm) {
+    spacesState.active = remaining[0];
+    process.env.CN_ACTIVE_SPACE = spacesState.active;
+    try {
+      fs.writeFileSync(ACTIVE_FILE, spacesState.active, 'utf8');
+    } catch {}
+  }
+  try {
+    fs.writeFileSync(SPACES_FILE, JSON.stringify({ active: spacesState.active, spaces: spacesState.spaces }, null, 2), 'utf8');
+  } catch {}
+  return { active: spacesState.active, spaces: listSpaces() };
+}
+
 export function assertConfigured(spaceId = getActiveSpace()) {
   const cur = getSpaceConfig(spaceId);
   const missing = ['baseUrl', 'email', 'spaceKey'].filter((k) => !cur[k]);

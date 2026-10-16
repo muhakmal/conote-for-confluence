@@ -153,3 +153,40 @@ test('page → draft → compare with Confluence', async () => {
   assert.equal(cmp.remoteVersion, 2);
   assert.ok(cmp.remote.hunks[0].lines.some((l) => l.op === '+' && /edited/.test(l.line)));
 });
+
+test('spaces: dynamic creation, listing, switching and deletion', async () => {
+  // Create space
+  let r = await call('POST', '/api/spaces', {
+    body: {
+      id: 'beta-space',
+      name: 'Beta Space',
+      key: 'BETA',
+      baseUrl: 'https://example.atlassian.net/wiki',
+      email: 'tester@example.com',
+      token: 'dummy-token',
+      setActive: true,
+    },
+  });
+  assert.equal(r.status, 200);
+  assert.equal(r.json.ok, true);
+  assert.equal(r.json.space.key, 'BETA');
+  assert.equal(r.json.active, 'beta-space');
+
+  // Verify in spaces list
+  r = await call('GET', '/api/spaces');
+  assert.equal(r.status, 200);
+  assert.ok(r.json.spaces.some((s) => s.id === 'beta-space' && s.active));
+
+  // Delete space
+  r = await call('DELETE', '/api/spaces/beta-space');
+  assert.equal(r.status, 200);
+  assert.equal(r.json.ok, true);
+  assert.ok(!r.json.spaces.some((s) => s.id === 'beta-space'));
+});
+
+test('test-connection: rejects empty credentials', async () => {
+  let r = await call('POST', '/api/test-connection', { body: {} });
+  assert.equal(r.status, 400);
+  assert.equal(r.json.ok, false);
+  assert.match(r.json.error, /Base URL is required/);
+});
