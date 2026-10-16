@@ -103,6 +103,21 @@ See the full [Implementation Plan](IMPLEMENTATION_PLAN.md) for details.
 
 ---
 
+## 📦 Downloads & Desktop Installers
+
+Pre-built binaries for every release are available on the [GitHub Releases page](https://github.com/muhakmal/conote-for-confluence/releases):
+
+| Operating System | Package Type | Architecture | Notes |
+| :--- | :--- | :--- | :--- |
+| **macOS** | `.dmg`, `.zip` | Apple Silicon (`arm64`), Intel (`x64`) | See [macOS Gatekeeper guide](docs/TROUBLESHOOTING.md#macos-troubleshooting) |
+| **Windows** | Setup `.exe` (NSIS), Portable `.exe` | `x64`, `arm64` | See [SmartScreen guide](docs/TROUBLESHOOTING.md#windows-troubleshooting) |
+| **Linux** | `.AppImage`, `.deb`, `.rpm` | `x64`, `arm64` | One-click execution or native distro package |
+
+> [!TIP]
+> Encountering an unsigned app warning on macOS or Windows? Check our [Troubleshooting Guide](docs/TROUBLESHOOTING.md) for quick 1-click unquarantine steps.
+
+---
+
 ## 🚀 Getting Started (Development Mode)
 
 ### Prerequisites
@@ -119,8 +134,22 @@ cd conote-for-confluence
 # Install dependencies
 npm install
 
-# Start development server
+# Start desktop app in development mode
 npm run dev
+
+# Or run headless local web server & CLI only
+npm start
+```
+
+### 🛠️ Building Desktop Packages Locally
+```bash
+# Build for current host platform
+npm run build
+
+# Or target specific operating systems
+npm run build:mac     # Generates DMG and ZIP in dist/
+npm run build:win     # Generates NSIS installer and Portable EXE in dist/
+npm run build:linux   # Generates AppImage, DEB, and RPM in dist/
 ```
 
 ---
@@ -128,3 +157,4 @@ npm run dev
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+

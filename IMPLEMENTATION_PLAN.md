@@ -87,7 +87,7 @@ flowchart TD
 - [x] **2.3. Dynamic Space Management & Workspace Folder Scaffolding:**
   - Add/switch/delete Confluence spaces directly from Settings UI.
   - Automatically scaffold subdirectories (`workspace/`, `drafts/`, `templates/`, `exports/`).
-- [ ] **2.4. Cross-Platform Secure Token Storage (`safeStorage`):**
+- [x] **2.4. Cross-Platform Secure Token Storage (`safeStorage`):**
   - Implement token encryption using Electron's native `safeStorage`:
     - **macOS:** Stores encryption key in macOS Keychain.
     - **Windows:** Encrypted via Windows DPAPI (Data Protection API).
@@ -117,21 +117,21 @@ flowchart TD
 ---
 
 ### Phase 4: Multi-OS Packaging & GitHub Actions CI/CD
-- [ ] **4.1. Packaging Configuration (`electron-builder`):**
+- [x] **4.1. Packaging Configuration (`electron-builder`):**
   - Configure `electron-builder.yml` with targets:
     - **macOS:** `dmg`, `zip` (Universal `arm64` + `x64`).
     - **Windows:** `nsis` (custom install wizard), `portable` (`.exe`).
     - **Linux:** `AppImage` (one-click run), `deb` (Debian/Ubuntu), `rpm` (Fedora/RHEL).
-- [ ] **4.2. Code Signing & Gatekeeper Strategy:**
-  - macOS: Instructions for running unsigned open-source applications (`xattr -cr /Applications/CoNote.app`).
-  - Windows: Instructions for SmartScreen ("More info $\rightarrow$ Run anyway") or open-source EV signing if sponsored.
-  - Linux: Executable permissions for `.AppImage` (`chmod +x`).
-- [ ] **4.3. GitHub Actions Multi-OS Matrix (`release.yml`):**
+- [x] **4.2. Code Signing & Gatekeeper Strategy:**
+  - macOS: Instructions for running unsigned open-source applications (`xattr -cr /Applications/CoNote.app`) in `docs/TROUBLESHOOTING.md`.
+  - Windows: Instructions for SmartScreen ("More info $\rightarrow$ Run anyway") in `docs/TROUBLESHOOTING.md`.
+  - Linux: Executable permissions for `.AppImage` (`chmod +x`) and FUSE dependency instructions.
+- [x] **4.3. GitHub Actions Multi-OS Matrix (`ci.yml` & `release.yml`):**
   - Automated CI matrix running on:
     - `macos-latest` $\rightarrow$ builds `.dmg` & `.zip`
     - `windows-latest` $\rightarrow$ builds `.exe` (NSIS & Portable)
     - `ubuntu-latest` $\rightarrow$ builds `.AppImage`, `.deb`, `.rpm`
-  - Automatically compiles and attaches all installers and SHA256 checksums to GitHub Releases on tag push (`v*.*.*`).
+  - Automatically compiles and attaches all installers and SHA256 checksums to GitHub Releases on tag push (`v*.*.*`) or manual dispatch.
 
 ---
 

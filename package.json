@@ -2,6 +2,12 @@
   "name": "conote",
   "version": "0.1.0",
   "description": "Fast, local-first PRD & Markdown desktop notebook for Confluence Cloud.",
+  "author": "Akmal Muhamad",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhakmal/conote-for-confluence.git"
+  },
+  "homepage": "https://github.com/muhakmal/conote-for-confluence#readme",
   "type": "module",
   "main": "electron/main.js",
   "bin": {
@@ -12,6 +18,11 @@
     "start": "node bin/cn.js serve",
     "dev": "electron electron/main.js",
     "electron": "electron electron/main.js",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:all": "electron-builder -mwl",
     "open": "node bin/cn.js open",
     "pull": "node bin/cn.js pull",
     "check": "node scripts/check-syntax.js",
@@ -33,6 +44,7 @@
     "yaml": "^2.9.1"
   },
   "devDependencies": {
-    "electron": "^44.7.2"
+    "electron": "^44.7.2",
+    "electron-builder": "^26.15.3"
   }
 }
