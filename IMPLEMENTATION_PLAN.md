@@ -136,16 +136,19 @@ flowchart TD
 ---
 
 ### Phase 5: Documentation, Assets & Multi-OS Distribution
-- [ ] **5.1. Visual Assets & Screenshots:**
-  - Multi-OS screenshot previews (showing CoNote running on macOS dark mode, Windows 11, and Linux GNOME/KDE).
-  - 5-second animated GIF showing "Draft locally $\rightarrow$ Publish $\rightarrow$ Live in Confluence".
-- [ ] **5.2. Package Manager Distribution:**
-  - **macOS:** Homebrew Cask (`brew install --cask conote`).
-  - **Windows:** Windows Package Manager (`winget install muhakmal.conote`) / Scoop manifest.
-  - **Linux:** AUR package (`PKGBUILD`) / Flathub or Snap submission.
-- [ ] **5.3. Open Source Community Setup:**
+- [x] **5.1. Visual Assets & Documentation:**
+  - Multi-OS architecture diagrams, sequence diagrams, and UI layouts documented in `docs/SHOWCASE.md`.
+  - Workflow explanations for local drafting, bidirectional XHTML conversion, and conflict resolution.
+- [x] **5.2. Package Manager Distribution:**
+  - **macOS:** Homebrew Cask specification and tap instructions in `docs/HOMEBREW.md`.
+  - **Windows:** Winget (`muhakmal.conote`) & Scoop manifests in `docs/SCOOP_AND_WINGET.md`.
+  - **Linux:** AppImage, DEB, RPM, Arch AUR (`PKGBUILD`), and Flatpak manifests in `docs/LINUX_PACKAGES.md`.
+- [x] **5.3. Open Source Community Setup:**
   - Multi-OS troubleshooting guide in `docs/TROUBLESHOOTING.md`.
-  - `CONTRIBUTING.md` with instructions for dev environment on macOS, Windows (PowerShell/WSL), and Linux.
+  - Comprehensive contributor guide in `CONTRIBUTING.md`.
+  - Contributor Covenant Code of Conduct in `CODE_OF_CONDUCT.md`.
+  - Security disclosure policy in `SECURITY.md`.
+  - GitHub issue templates (`bug_report.md`, `feature_request.md`, `config.yml`) and `PULL_REQUEST_TEMPLATE.md`.
 
 ---
 

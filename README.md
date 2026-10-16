@@ -8,7 +8,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: macOS | Windows | Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey.svg)]()
-[![Status: In_Development](https://img.shields.io/badge/Status-In%20Development-orange.svg)]()
+[![CI: Passing](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml/badge.svg)](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml)
+[![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-brightgreen.svg)](https://github.com/muhakmal/conote-for-confluence/releases)
 
 </div>
 
@@ -154,7 +155,29 @@ npm run build:linux   # Generates AppImage, DEB, and RPM in dist/
 
 ---
 
+## 📚 Documentation & Guides
+
+- **[Visual Showcase & Architecture](docs/SHOWCASE.md):** Complete UI walkthrough, sequence diagrams, and markdown features.
+- **[Troubleshooting Guide](docs/TROUBLESHOOTING.md):** macOS Gatekeeper unquarantine, Windows SmartScreen, Linux FUSE, and Atlassian auth.
+- **[macOS Homebrew Guide](docs/HOMEBREW.md):** Installing via `brew install --cask conote`.
+- **[Windows Package Guide](docs/SCOOP_AND_WINGET.md):** Winget and Scoop manifests.
+- **[Linux Distribution Guide](docs/LINUX_PACKAGES.md):** AppImage, DEB, RPM, and Arch Linux AUR instructions.
+- **[Implementation Roadmap](IMPLEMENTATION_PLAN.md):** Engineering milestone tracker and design specifications.
+
+---
+
+## 🤝 Contributing & Community
+
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+- Please read our **[Contributing Guidelines](CONTRIBUTING.md)** for details on code style, branch naming, and testing standards.
+- Review our **[Code of Conduct](CODE_OF_CONDUCT.md)** to foster a welcoming, inclusive environment.
+- Read our **[Security Policy](SECURITY.md)** to report any vulnerability responsibly.
+
+---
+
 ## 📄 License
 
-This project is licensed under the [MIT License](LICENSE) - see the LICENSE file for details.
+This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+
 
