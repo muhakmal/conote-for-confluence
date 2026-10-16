@@ -1,0 +1,18 @@
+{
+  "active": "default",
+  "spaces": {
+    "default": {
+      "id": "default",
+      "name": "Default Space",
+      "key": "DEV",
+      "baseUrl": "https://your-domain.atlassian.net/wiki",
+      "email": "user@example.com",
+      "tokenFile": "confluence-token.txt",
+      "workspaceDir": "workspace",
+      "draftsDir": "drafts",
+      "cacheDir": ".cache",
+      "templatesDir": "templates",
+      "exportsDir": "exports"
+    }
+  }
+}

@@ -62,8 +62,8 @@ Writing Product Requirement Documents (PRDs) and RFCs in the native Confluence w
 | Milestone | Status | Description |
 | :--- | :---: | :--- |
 | **Core Engine & Local Server** | ✅ Completed | Local HTTP server, Markdown $\leftrightarrow$ Confluence XHTML parser, sync & conflict logic. |
-| **Sanitization & Open-Source Separation** | 🔄 In Progress | Decoupling proprietary enterprise configurations into a clean, generic core. |
-| **First-Run Onboarding & Settings UI** | ⏳ Planned | GUI setup wizard for Atlassian domain, email, token, and space selection. |
+| **Sanitization & Open-Source Separation** | ✅ Completed | Decoupled proprietary enterprise configurations into a clean, generic core with MIT license. |
+| **First-Run Onboarding & Settings UI** | 🔄 In Progress | GUI setup wizard for Atlassian domain, email, token, and space selection. |
 | **Cross-Platform Desktop Packaging** | ⏳ Planned | Electron bundle: macOS (`.dmg`), Windows (`.exe` NSIS/portable), Linux (`.AppImage`, `.deb`). |
 | **Multi-OS CI/CD & Distribution** | ⏳ Planned | GitHub Actions matrix build, Homebrew Cask, Winget, and direct releases. |
 

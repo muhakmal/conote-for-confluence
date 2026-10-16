@@ -54,21 +54,21 @@ flowchart TD
 ---
 
 ### Phase 1: Code Migration & Cross-Platform Sanitization
-- [ ] **1.1. Port Core Modules:**
+- [x] **1.1. Port Core Modules:**
   - Copy core conversion engines: `storage2md.js`, `xhtml.js`, `render.js`, `publish.js`, `sync.js`, `drafts.js`, `history.js`, `confluence.js`, `move.js`, `docx.js`.
   - Copy frontend client assets: `web/index.html`, `web/app.js`, `web/style.css`, and related assets.
-- [ ] **1.2. Cross-Platform Path & OS Normalization:**
+- [x] **1.2. Cross-Platform Path & OS Normalization:**
   - Audit all file access logic to eliminate hardcoded POSIX `/` assumptions, using `path.join()`, `path.resolve()`, and `path.normalize()`.
   - Use Electron's `app.getPath('userData')` and `app.getPath('documents')` to resolve platform-standard storage locations:
     - **macOS:** `~/Documents/CoNote/` & `~/Library/Application Support/CoNote/`
     - **Windows:** `%USERPROFILE%\Documents\CoNote\` & `%APPDATA%\CoNote\`
     - **Linux:** `~/Documents/CoNote/` & `~/.config/conote/` (or `$XDG_CONFIG_HOME`)
-- [ ] **1.3. Complete Corporate Sanitization:**
+- [x] **1.3. Complete Corporate Sanitization:**
   - Decouple all proprietary references (e.g., hardcoded company domains, specific internal space keys, proprietary corporate emails).
   - Create industry-standard generic templates:
     - *Agile PRD Template* (Problem statement, User stories, Out of scope, Success metrics, Open questions).
     - *Technical Architecture Document (TAD / RFC)* (System overview, Architecture diagram, Sequence flow, Data models, Rollout plan).
-- [ ] **1.4. Clean npm package setup:**
+- [x] **1.4. Clean npm package setup:**
   - Create clean `package.json` for `conote` with cross-platform scripts and permissive dependencies (MIT).
 
 ---

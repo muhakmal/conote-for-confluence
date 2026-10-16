@@ -1,0 +1,32 @@
+{
+  "name": "conote",
+  "version": "0.1.0",
+  "description": "Fast, local-first PRD & Markdown desktop notebook for Confluence Cloud.",
+  "type": "module",
+  "bin": {
+    "conote": "bin/cn.js",
+    "cn": "bin/cn.js"
+  },
+  "scripts": {
+    "start": "node bin/cn.js serve",
+    "open": "node bin/cn.js open",
+    "pull": "node bin/cn.js pull",
+    "check": "node scripts/check-syntax.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@mixmark-io/domino": "^2.2.0",
+    "docx": "^9.7.1",
+    "dompurify": "^3.4.15",
+    "marked": "^18.0.13",
+    "mermaid": "^12.0.0",
+    "puppeteer-core": "^25.11.0",
+    "turndown": "^7.2.4",
+    "turndown-plugin-gfm": "^1.0.2",
+    "yaml": "^2.9.1"
+  }
+}

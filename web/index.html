@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+  <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0f1116" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="CoNote">
+  <title>CoNote for Confluence</title>
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/app.css">
+  <link rel="stylesheet" href="/doc.css">
+  <script>
+    try { const t = localStorage.getItem('cn-theme'); if (t && t !== 'system') document.documentElement.dataset.theme = t; } catch {}
+  </script>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar" id="sidebar" aria-label="Navigation">
+      <div class="sidebar-head">
+        <a class="brand" href="#/">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text"><strong>CoNote</strong><small id="space-name">for Confluence</small></span>
+        </a>
+        <button class="icon-btn only-drawer" data-action="close-drawer" aria-label="Close menu"></button>
+      </div>
+      <div class="space-selector-box" id="space-selector-box">
+        <label for="space-select" class="visually-hidden">Space</label>
+        <span class="space-select-icon" aria-hidden="true">
+          <svg class="i" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </span>
+        <select id="space-select" class="space-select" aria-label="Select Confluence Space">
+          <option value="" disabled selected>Select Space…</option>
+        </select>
+        <span class="space-select-arrow" aria-hidden="true">▾</span>
+      </div>
+      <button class="search-trigger" data-action="palette">
+        <span data-icon="search"></span><span>Search pages…</span><kbd>⌘K</kbd>
+      </button>
+      <div class="segmented" role="tablist">
+        <button role="tab" data-tab="space" aria-selected="true">Space</button>
+        <button role="tab" data-tab="drafts" aria-selected="false">Drafts <span class="count" id="draft-count"></span></button>
+        <span class="segmented-thumb" aria-hidden="true"></span>
+      </div>
+      <div class="filters" id="filters"></div>
+      <nav class="tree-wrap" id="nav-scroll">
+        <div id="tree" class="tree" role="tree"></div>
+        <div id="draft-list" class="draft-list" hidden></div>
+      </nav>
+      <div class="sync" id="sync">
+        <div class="sync-bar"><span id="sync-progress"></span></div>
+        <div class="sync-row">
+          <span class="sync-text" id="sync-text">Not synced</span>
+          <button class="icon-btn" data-action="settings" aria-label="Settings" title="Settings"><span data-icon="settings"></span></button>
+          <button class="btn btn-sm" data-action="pull" id="pull-btn"><span data-icon="refresh"></span><span>Fetch</span></button>
+        </div>
+      </div>
+    </aside>
+    <div class="scrim" data-action="close-drawer"></div>
+
+    <main class="main" id="main">
+      <header class="topbar" id="topbar">
+        <button class="icon-btn only-drawer" data-action="open-drawer" aria-label="Open menu"><span data-icon="menu"></span></button>
+        <div class="crumbs" id="crumbs"></div>
+        <div class="top-actions" id="top-actions"></div>
+      </header>
+      <div class="view" id="view"></div>
+    </main>
+
+    <nav class="tabbar" id="tabbar" aria-label="Primary">
+      <a href="#/" data-nav="home"><span data-icon="home"></span><span>Home</span></a>
+      <button data-action="open-drawer" data-nav="space"><span data-icon="tree"></span><span>Space</span></button>
+      <button data-action="new-draft" class="tab-primary" aria-label="New PRD"><span data-icon="plus"></span></button>
+      <button data-action="palette" data-nav="search"><span data-icon="search"></span><span>Search</span></button>
+      <a href="#/drafts" data-nav="drafts"><span data-icon="file"></span><span>Drafts</span></a>
+    </nav>
+
+    <!-- Present / Read Mode Floating UI -->
+    <div class="present-bar" id="present-bar" hidden>
+      <div class="present-bar-left">
+        <span class="present-badge"><span data-icon="present"></span> PRESENT</span>
+        <span class="present-doc-title" id="present-doc-title"></span>
+      </div>
+      <div class="present-bar-right">
+        <button class="btn btn-sm present-tool-btn" id="present-toc-btn" title="Outline / Table of contents">
+          <span data-icon="toc"></span><span>Outline</span>
+        </button>
+        <div class="present-zoom-group">
+          <button class="icon-btn" id="present-zoom-out" title="Smaller text (A-)">A-</button>
+          <span class="present-zoom-val" id="present-zoom-val">115%</span>
+          <button class="icon-btn" id="present-zoom-in" title="Larger text (A+)">A+</button>
+        </div>
+        <button class="icon-btn" id="present-fs-btn" title="Toggle Fullscreen">
+          <span data-icon="maximize"></span>
+        </button>
+        <button class="btn btn-sm btn-primary present-exit-btn" id="present-exit-btn" title="Exit Present Mode (Esc)">
+          <span data-icon="close"></span><span>Exit</span>
+        </button>
+      </div>
+    </div>
+    <aside class="present-toc-drawer" id="present-toc-drawer" hidden>
+      <div class="present-toc-head">
+        <strong>On this page</strong>
+        <button class="icon-btn" id="present-toc-close" aria-label="Close outline"><span data-icon="close"></span></button>
+      </div>
+      <div class="present-toc-content" id="present-toc-content"></div>
+    </aside>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
