@@ -2,36 +2,45 @@
 
 **CoNote for Confluence** is the cross-platform, local-first PRD & technical architecture notebook designed to replace the laggy Confluence web editor with instant Markdown authoring, zero editor latency, and conflict-aware publishing.
 
+Part of the **[BaskomLabs Open Source](https://baskom.fun/open-source)** ecosystem by Akmal, M.
+
 ---
 
-## 🖥️ User Interface Overview
+## 🖥️ Real Application Screenshots
+
+### 1. Dual Split Markdown Editor & Live Preview
+Edit in clean GitHub-flavored Markdown on the left with instant live preview on the right. Note callouts, tables, and Mermaid flowcharts render in real time with zero editor lag:
 
 <div align="center">
-  <img src="assets/conote-preview.svg" alt="CoNote for Confluence Desktop Preview" width="100%" />
+  <img src="assets/markdown-split-screenshot.png" alt="CoNote Split Markdown Editor" width="100%" />
 </div>
 
 <br/>
 
-```text
-┌────────────────────────────────────────────────────────────────────────────────────────┐
-│  🔴 🟡 🟢  CoNote — [ARCH-202] Core Payment Router Architecture                [ ⚙️ ] │
-├───────────────────┬──────────────────────────────────┬─────────────────────────────────┤
-│ 📁 SPACES         │ ✍️ MARKDOWN EDITOR                │ 👁️ LIVE PREVIEW & DIAGRAMS      │
-│   ▼ Core Eng (ENG)│ # [ARCH-202] Core Payment Router │ [ARCH-202] Core Payment Router  │
-│     📄 Overview   │                                  │                                 │
-│     ▼ RFCs        │ > [!NOTE]                        │ ℹ️ Architecture Note            │
-│       📄 Router*  │ > High-throughput router specs.  │ High-throughput router specs.   │
-│       📄 Cache    │                                  │                                 │
-│     ▶ Archive     │ ## System Flowchart              │ System Flowchart                │
-│                   │ ```mermaid                       │ ┌───────┐      ┌────────┐       │
-│ 📝 LOCAL DRAFTS   │ flowchart LR                     │ │Client │ ───► │ Router │       │
-│   • Auth V2 (wip) │   Client --> Router              │ └───────┘      └────────┘       │
-│   • Kafka Sink    │ ```                              │                                 │
-│                   │                                  │                                 │
-├───────────────────┴──────────────────────────────────┴─────────────────────────────────┤
-│ 🚀 [Publish to Confluence]  💾 [Save Draft (⌘S)]   🕒 [History]   📤 [Export DOCX]     │
-└────────────────────────────────────────────────────────────────────────────────────────┘
-```
+### 2. High-Fidelity Reading Mode & Outline Navigator
+Browse synced Confluence pages with an interactive space hierarchy tree, breadcrumbs, and floating on-page outline:
+
+<div align="center">
+  <img src="assets/app-screenshot.png" alt="CoNote Document View & Space Tree" width="100%" />
+</div>
+
+<br/>
+
+### 3. First-Run Onboarding & Space Connection Wizard
+Easily connect to your Atlassian Cloud instance. Includes live credential testing and automated space discovery:
+
+<div align="center">
+  <img src="assets/onboarding-screenshot.png" alt="CoNote Connection Wizard" width="90%" />
+</div>
+
+<br/>
+
+### 4. Multi-Space Manager & Desktop Settings
+Switch between multiple Confluence spaces (Engineering, Product, Architecture) or manage auto-fetch intervals directly from the UI:
+
+<div align="center">
+  <img src="assets/settings-screenshot.png" alt="CoNote Multi-Space Settings" width="90%" />
+</div>
 
 ---
 

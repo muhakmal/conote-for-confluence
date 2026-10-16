@@ -6,13 +6,15 @@
 
 *Draft PRDs and technical architecture documents at the speed of thought. Zero editor lag, offline-ready, with safe, conflict-aware publishing to Confluence.*
 
+*Built by [Akmal, M.](https://github.com/muhakmal) · Featured on [BaskomLabs Open Source](https://baskom.fun/open-source)*
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: macOS | Windows | Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey.svg)]()
 [![CI: Passing](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml/badge.svg)](https://github.com/muhakmal/conote-for-confluence/actions/workflows/ci.yml)
 [![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-brightgreen.svg)](https://github.com/muhakmal/conote-for-confluence/releases)
 
 <br/><br/>
-<img src="docs/assets/conote-preview.svg" alt="CoNote for Confluence Desktop App Preview" width="100%" />
+<img src="docs/assets/markdown-split-screenshot.png" alt="CoNote for Confluence Desktop App Preview" width="100%" />
 
 </div>
 
@@ -160,7 +162,8 @@ npm run build:linux   # Generates AppImage, DEB, and RPM in dist/
 
 ## 📚 Documentation & Guides
 
-- **[Visual Showcase & Architecture](docs/SHOWCASE.md):** Complete UI walkthrough, sequence diagrams, and markdown features.
+- **[Visual Showcase & Architecture](docs/SHOWCASE.md):** Real UI walkthrough, sequence diagrams, and markdown features.
+- **[Regulatory & Compliance Guide](docs/COMPLIANCE.md):** Atlassian API terms, PDP Law No. 27/2022, zero-telemetry policy, and safeStorage security.
 - **[Troubleshooting Guide](docs/TROUBLESHOOTING.md):** macOS Gatekeeper unquarantine, Windows SmartScreen, Linux FUSE, and Atlassian auth.
 - **[macOS Homebrew Guide](docs/HOMEBREW.md):** Installing via `brew install --cask conote`.
 - **[Windows Package Guide](docs/SCOOP_AND_WINGET.md):** Winget and Scoop manifests.
@@ -176,11 +179,13 @@ Contributions are what make the open-source community such an amazing place to l
 - Please read our **[Contributing Guidelines](CONTRIBUTING.md)** for details on code style, branch naming, and testing standards.
 - Review our **[Code of Conduct](CODE_OF_CONDUCT.md)** to foster a welcoming, inclusive environment.
 - Read our **[Security Policy](SECURITY.md)** to report any vulnerability responsibly.
+- Explore other developer tools in the **[BaskomLabs Open Source Portfolio](https://baskom.fun/open-source)**.
 
 ---
 
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE) - see the [LICENSE](LICENSE) file for details.
+
 
 
