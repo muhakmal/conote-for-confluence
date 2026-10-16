@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/muhakmal/conote-for-confluence.git"
   },
-  "homepage": "https://github.com/muhakmal/conote-for-confluence#readme",
+  "homepage": "https://baskom.fun/open-source",
   "type": "module",
   "main": "electron/main.js",
   "bin": {
