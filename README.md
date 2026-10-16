@@ -7,7 +7,7 @@
 *Draft PRDs and technical architecture documents at the speed of thought. Zero editor lag, offline-ready, with safe, conflict-aware publishing to Confluence.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)]()
+[![Platform: macOS | Windows | Linux](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-lightgrey.svg)]()
 [![Status: In_Development](https://img.shields.io/badge/Status-In%20Development-orange.svg)]()
 
 </div>
@@ -61,11 +61,11 @@ Writing Product Requirement Documents (PRDs) and RFCs in the native Confluence w
 
 | Milestone | Status | Description |
 | :--- | :---: | :--- |
-| **Core CLI Engine & Local Server** | ✅ Completed | Local HTTP server, Markdown $\leftrightarrow$ Confluence XHTML parser, sync & conflict logic. |
+| **Core Engine & Local Server** | ✅ Completed | Local HTTP server, Markdown $\leftrightarrow$ Confluence XHTML parser, sync & conflict logic. |
 | **Sanitization & Open-Source Separation** | 🔄 In Progress | Decoupling proprietary enterprise configurations into a clean, generic core. |
 | **First-Run Onboarding & Settings UI** | ⏳ Planned | GUI setup wizard for Atlassian domain, email, token, and space selection. |
-| **Standalone Desktop (.dmg) Packaging** | ⏳ Planned | Electron bundle with native macOS menus, tray, and universal binary build (`arm64` & `x64`). |
-| **CI/CD & Homebrew Distribution** | ⏳ Planned | GitHub Actions automated DMG build and Homebrew Cask installation. |
+| **Cross-Platform Desktop Packaging** | ⏳ Planned | Electron bundle: macOS (`.dmg`), Windows (`.exe` NSIS/portable), Linux (`.AppImage`, `.deb`). |
+| **Multi-OS CI/CD & Distribution** | ⏳ Planned | GitHub Actions matrix build, Homebrew Cask, Winget, and direct releases. |
 
 See the full [Implementation Plan](IMPLEMENTATION_PLAN.md) for details.
 
@@ -108,7 +108,7 @@ See the full [Implementation Plan](IMPLEMENTATION_PLAN.md) for details.
 ### Prerequisites
 - Node.js 20 or later
 - npm or yarn
-- macOS (Intel or Apple Silicon)
+- macOS (Intel or Apple Silicon), Windows 10/11, or Linux (Ubuntu, Debian, Fedora, Arch)
 
 ### Installation
 ```bash
