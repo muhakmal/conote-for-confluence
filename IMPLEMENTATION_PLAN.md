@@ -97,20 +97,20 @@ flowchart TD
 ---
 
 ### Phase 3: Desktop Shell Integration (macOS, Windows, Linux)
-- [ ] **3.1. Electron Process Architecture:**
+- [x] **3.1. Electron Process Architecture:**
   - Setup `electron/main.js` and `electron/preload.js`.
   - Main process boots the local Node server and manages native IPC.
   - **Adaptive Window Frame:**
     - macOS: `titleBarStyle: 'hiddenInset'` (native traffic lights).
     - Windows & Linux: Native window decorations or custom frameless header with minimize/maximize/close buttons matching OS theme.
-- [ ] **3.2. Cross-Platform Shortcuts & Menu:**
+- [x] **3.2. Cross-Platform Shortcuts & Menu:**
   - Key bindings adapt automatically:
     - `⌘N` (macOS) / `Ctrl+N` (Windows/Linux) - New Page
     - `⌘K` (macOS) / `Ctrl+K` (Windows/Linux) - Quick Search
     - `⌘P` (macOS) / `Ctrl+P` (Windows/Linux) - Publish
     - `⌘S` (macOS) / `Ctrl+S` (Windows/Linux) - Save Draft
   - Cross-platform auto-start on login using Electron's `app.setLoginItemSettings({ openAtLogin: true })` (replacing macOS-only `launchd` scripts).
-- [ ] **3.3. Self-Contained Diagram Rendering:**
+- [x] **3.3. Self-Contained Diagram Rendering:**
   - Shift Mermaid rendering to client-side Webview/Canvas rendering, eliminating the hard dependency on an external Google Chrome binary path.
   - Provide cross-platform fallback for PlantUML (local binary or configurable server).
 
