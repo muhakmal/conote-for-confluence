@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Troubleshooting Guide
+    url: https://github.com/muhakmal/conote-for-confluence/blob/main/docs/TROUBLESHOOTING.md
+    about: Common questions, Gatekeeper/SmartScreen bypass, and Confluence auth fixes.
+  - name: 💬 GitHub Discussions & Q&A
+    url: https://github.com/muhakmal/conote-for-confluence/discussions
+    about: Ask questions, share workflows, and discuss ideas with the community.
