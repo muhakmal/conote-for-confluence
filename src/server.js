@@ -4,7 +4,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import os from 'node:os';
-import { ROOT, config, ensureDirs, listSpaces, getActiveSpace, setActiveSpace, getSpaceConfig, ensureAllDirs } from './config.js';
+import { ROOT, config, ensureDirs, listSpaces, getActiveSpace, setActiveSpace, getSpaceConfig, ensureAllDirs, addOrUpdateSpace, deleteSpaceConfig } from './config.js';
+import { testConfluenceCredentials } from './confluence.js';
 import { parseDoc, stringifyDoc } from './frontmatter.js';
 import { pull, pullTemplates, readIndex } from './sync.js';
 import { listDrafts, listTemplates, createDraft, readDraft, writeDraft, deleteDraft, draftFromPage, safeDraftPath, suggestTemplate, restoreSnapshot } from './drafts.js';
@@ -279,11 +280,54 @@ export function startServer({ port = 4777, host = '127.0.0.1' } = {}) {
         lan,
       });
     }
+    if (m === 'POST' && route === 'test-connection') {
+      const body = await readJson(req);
+      try {
+        const result = await testConfluenceCredentials(body);
+        return send(res, 200, result);
+      } catch (err) {
+        return send(res, 400, { ok: false, error: err.message });
+      }
+    }
     if (m === 'GET' && route === 'spaces') {
       return send(res, 200, {
         active: getActiveSpace(),
         spaces: listSpaces(),
       });
+    }
+    if (m === 'POST' && route === 'spaces') {
+      const body = await readJson(req);
+      try {
+        const created = addOrUpdateSpace(body);
+        pageCache.clear();
+        settings = loadSettings();
+        schedule();
+        broadcast('space-changed', { active: getActiveSpace(), space: created });
+        return send(res, 200, {
+          ok: true,
+          space: created,
+          active: getActiveSpace(),
+          spaces: listSpaces(),
+        });
+      } catch (err) {
+        return send(res, 400, { error: err.message });
+      }
+    }
+    if (m === 'DELETE' && route.startsWith('spaces/')) {
+      const id = route.slice('spaces/'.length);
+      try {
+        const result = deleteSpaceConfig(id);
+        pageCache.clear();
+        settings = loadSettings();
+        schedule();
+        broadcast('space-changed', { active: result.active, space: getSpaceConfig(result.active) });
+        return send(res, 200, {
+          ok: true,
+          ...result,
+        });
+      } catch (err) {
+        return send(res, 400, { error: err.message });
+      }
     }
     if (m === 'POST' && (route === 'spaces/active' || route === 'spaces/switch')) {
       const body = await readJson(req);

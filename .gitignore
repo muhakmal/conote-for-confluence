@@ -14,6 +14,8 @@ out/
 .env
 .env.*
 !.env.example
+spaces.json
+!spaces.json.example
 *.token.txt
 *token*.txt
 

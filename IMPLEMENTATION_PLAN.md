@@ -74,18 +74,18 @@ flowchart TD
 ---
 
 ### Phase 2: Onboarding GUI & Cross-Platform Secure Storage
-- [ ] **2.1. First-Run Setup Wizard:**
+- [x] **2.1. First-Run Setup Wizard:**
   - Detect when no spaces are configured on launch.
   - Display an interactive Setup Modal:
     1. Atlassian Cloud URL (e.g., `https://your-domain.atlassian.net/wiki`).
     2. Atlassian Account Email.
     3. API Token with direct link to [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens).
     4. Button: **"Test Connection & Discover Spaces"**.
-- [ ] **2.2. Test Connection & Auto-Discovery Endpoint:**
+- [x] **2.2. Test Connection & Auto-Discovery Endpoint:**
   - Implement `/api/test-connection` endpoint that verifies authentication against `GET /wiki/rest/api/space`.
   - Automatically populate the Space dropdown with spaces accessible to the user.
-- [ ] **2.3. Workspace Folder Selection:**
-  - Pre-fill platform-friendly default document path with native folder chooser button (`dialog.showOpenDialog`).
+- [x] **2.3. Dynamic Space Management & Workspace Folder Scaffolding:**
+  - Add/switch/delete Confluence spaces directly from Settings UI.
   - Automatically scaffold subdirectories (`workspace/`, `drafts/`, `templates/`, `exports/`).
 - [ ] **2.4. Cross-Platform Secure Token Storage (`safeStorage`):**
   - Implement token encryption using Electron's native `safeStorage`:
