@@ -2,7 +2,7 @@
   "name": "conote",
   "version": "0.1.0",
   "description": "Fast, local-first PRD & Markdown desktop notebook for Confluence Cloud.",
-  "author": "Akmal Muhamad",
+  "author": "Akmal Muhamad <muhamad.akmal@binus.ac.id>",
   "repository": {
     "type": "git",
     "url": "https://github.com/muhakmal/conote-for-confluence.git"
