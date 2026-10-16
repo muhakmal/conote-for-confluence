@@ -1,0 +1,84 @@
+appId: com.conote.app
+productName: CoNote
+artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+copyright: Copyright © 2026 Akmal Muhamad & CoNote Contributors
+
+directories:
+  output: dist
+  buildResources: build
+
+files:
+  - "bin/**/*"
+  - "src/**/*"
+  - "web/**/*"
+  - "templates/**/*"
+  - "electron/**/*"
+  - "package.json"
+  - "!node_modules/*/{test,__tests__,tests,powered-test,example,examples}"
+  - "!**/*.ts"
+  - "!**/*.map"
+  - "!**/*.log"
+
+mac:
+  category: public.app-category.productivity
+  icon: web/icon-512.png
+  target:
+    - target: dmg
+      arch:
+        - arm64
+        - x64
+    - target: zip
+      arch:
+        - arm64
+        - x64
+
+dmg:
+  title: "${productName} ${version} Installer"
+  contents:
+    - x: 130
+      y: 220
+      type: file
+    - x: 410
+      y: 220
+      type: link
+      path: /Applications
+  window:
+    width: 540
+    height: 380
+
+win:
+  icon: web/icon-512.png
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: portable
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: CoNote
+
+linux:
+  category: Office;Utility;Development;
+  icon: web/icon-512.png
+  target:
+    - target: AppImage
+      arch:
+        - x64
+        - arm64
+    - target: deb
+      arch:
+        - x64
+        - arm64
+    - target: rpm
+      arch:
+        - x64
+        - arm64
+  synopsis: Fast local-first PRD & Markdown notebook for Confluence Cloud
+  description: Draft PRDs and technical architecture documents at the speed of thought. Zero editor lag, offline-ready, with safe, conflict-aware publishing to Confluence.

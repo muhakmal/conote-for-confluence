@@ -1,0 +1,91 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      draft:
+        description: 'Create draft release'
+        required: false
+        type: boolean
+        default: false
+      prerelease:
+        description: 'Mark as pre-release'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & Release for ${{ matrix.target }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: macOS (dmg, zip)
+            os: macos-latest
+            build_cmd: npm run build:mac
+            artifacts: |
+              dist/*.dmg
+              dist/*.zip
+              dist/*.blockmap
+          - target: Windows (nsis, portable)
+            os: windows-latest
+            build_cmd: npm run build:win
+            artifacts: |
+              dist/*.exe
+              dist/*.blockmap
+          - target: Linux (AppImage, deb, rpm)
+            os: ubuntu-latest
+            build_cmd: npm run build:linux
+            artifacts: |
+              dist/*.AppImage
+              dist/*.deb
+              dist/*.rpm
+              dist/*.blockmap
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Linux build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rpm libarchive-tools
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run verification checks
+        run: |
+          npm run check
+          npm test
+
+      - name: Build Desktop Application
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ${{ matrix.build_cmd }}
+
+      - name: Publish Artifacts to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        with:
+          files: ${{ matrix.artifacts }}
+          draft: ${{ github.event.inputs.draft || false }}
+          prerelease: ${{ github.event.inputs.prerelease || false }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
